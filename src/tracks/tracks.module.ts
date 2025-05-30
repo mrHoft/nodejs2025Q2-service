@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { TracksController } from './tracks.controller';
-import { SharedModule } from '../shared/shared.module';
+import { FavoritesModule } from '../favorites/favorites.module';
 
 @Module({
-  imports: [SharedModule],
+  imports: [forwardRef(() => FavoritesModule)],
   controllers: [TracksController],
   providers: [TracksService],
   exports: [TracksService],
