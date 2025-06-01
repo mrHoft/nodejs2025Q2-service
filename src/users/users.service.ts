@@ -7,20 +7,20 @@ import { CreateUserDto, UpdateUserDto } from '../shared/dtos';
 export class UsersService {
   private users: User[] = [
     {
-      id: '0',
-      login: 'User0',
-      password: 'password',
-      version: 0,
-      createdAt: 0,
-      updatedAt: 0,
-    },
-    {
-      id: '1',
+      id: '0a35dd62-e09f-444b-a628-f4e7c6954f58',
       login: 'User1',
       password: 'password',
       version: 0,
-      createdAt: 0,
-      updatedAt: 0,
+      createdAt: 1748804969132,
+      updatedAt: 1748804969132,
+    },
+    {
+      id: '0a35dd62-e09f-444b-a628-f4e7c6954f59',
+      login: 'User2',
+      password: 'password',
+      version: 0,
+      createdAt: 1748804969133,
+      updatedAt: 1748804969133,
     }
   ];
 
