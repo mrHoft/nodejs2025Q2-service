@@ -15,4 +15,4 @@ import { FavoritesModule } from '../favorites/favorites.module';
   providers: [ArtistsService],
   exports: [ArtistsService],
 })
-export class ArtistsModule { }
+export class ArtistsModule {}

@@ -21,21 +21,23 @@ export class UsersService {
       version: 0,
       createdAt: 1748804969133,
       updatedAt: 1748804969133,
-    }
+    },
   ];
 
   getAll(): Omit<User, 'password'>[] {
     return this.users.map((user) => {
-      const { password, ...userWithoutPassword } = user;
-      return userWithoutPassword;
+      const userClone = { ...user };
+      delete userClone.password;
+      return userClone;
     });
   }
 
   getById(id: string): Omit<User, 'password'> | null {
     const user = this.users.find((u) => u.id === id);
     if (!user) return null;
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
+    const userClone = { ...user };
+    delete userClone.password;
+    return userClone;
   }
 
   create(createUserDto: CreateUserDto): Omit<User, 'password'> {
@@ -49,11 +51,15 @@ export class UsersService {
     };
 
     this.users.push(newUser);
-    const { password, ...userWithoutPassword } = newUser;
-    return userWithoutPassword;
+    const userClone = { ...newUser };
+    delete userClone.password;
+    return userClone;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): Omit<User, 'password'> | null {
+  update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Omit<User, 'password'> | null {
     const userIndex = this.users.findIndex((u) => u.id === id);
     if (userIndex === -1) return null;
 
@@ -70,8 +76,9 @@ export class UsersService {
     };
 
     this.users[userIndex] = updatedUser;
-    const { password, ...userWithoutPassword } = updatedUser;
-    return userWithoutPassword;
+    const userClone = { ...updatedUser };
+    delete userClone.password;
+    return userClone;
   }
 
   delete(id: string): boolean {

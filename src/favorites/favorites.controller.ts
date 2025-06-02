@@ -14,7 +14,7 @@ import { validate as uuidValidate } from 'uuid';
 
 @Controller('favs')
 export class FavoritesController {
-  constructor(private readonly favoritesService: FavoritesService) { }
+  constructor(private readonly favoritesService: FavoritesService) {}
 
   @Get()
   getAll() {
@@ -27,7 +27,7 @@ export class FavoritesController {
       const result = this.favoritesService.addArtist(id);
       return { message: result.message };
     } catch (error) {
-      console.log('Error:', error.status, error.message)
+      console.log('Error:', error.status, error.message);
       throw error;
     }
   }
@@ -50,7 +50,7 @@ export class FavoritesController {
       const result = this.favoritesService.addAlbum(id);
       return { message: result.message };
     } catch (error) {
-      console.log('Error:', error.status, error.message)
+      console.log('Error:', error.status, error.message);
       throw error;
     }
   }
@@ -73,7 +73,7 @@ export class FavoritesController {
       const result = this.favoritesService.addTrack(id);
       return { message: result.message };
     } catch (error) {
-      console.log('Error:', error.status, error.message)
+      console.log('Error:', error.status, error.message);
       throw error;
     }
   }

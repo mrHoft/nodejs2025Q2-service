@@ -17,7 +17,7 @@ import { validate as uuidValidate } from 'uuid';
 
 @Controller('artist')
 export class ArtistsController {
-  constructor(private readonly artistsService: ArtistsService) { }
+  constructor(private readonly artistsService: ArtistsService) {}
 
   @Get()
   getAll() {

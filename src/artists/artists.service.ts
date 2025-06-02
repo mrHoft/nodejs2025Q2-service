@@ -17,7 +17,7 @@ export class ArtistsService {
     private readonly tracksService: TracksService,
     @Inject(forwardRef(() => FavoritesService))
     private readonly favoritesService: FavoritesService,
-  ) { }
+  ) {}
 
   getAll(): Artist[] {
     return [...this.artists];

@@ -18,7 +18,7 @@ import { validate as uuidValidate } from 'uuid';
 
 @Controller('user')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
   @HttpCode(HttpStatus.OK)

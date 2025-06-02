@@ -9,4 +9,4 @@ import { FavoritesModule } from '../favorites/favorites.module';
   providers: [TracksService],
   exports: [TracksService],
 })
-export class TracksModule { }
+export class TracksModule {}

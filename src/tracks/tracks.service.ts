@@ -11,14 +11,14 @@ export class TracksService {
   constructor(
     @Inject(forwardRef(() => FavoritesService))
     private readonly favoritesService: FavoritesService,
-  ) { }
+  ) {}
 
   getAll(): Track[] {
     return [...this.tracks];
   }
 
   getById(id: string): Track | null {
-    console.log('Request: Get track', id)
+    console.log('Request: Get track', id);
     return this.tracks.find((track) => track.id === id) || null;
   }
 
@@ -32,7 +32,7 @@ export class TracksService {
     };
     this.tracks.push(newTrack);
 
-    console.log('Request: Create track', newTrack.id)
+    console.log('Request: Create track', newTrack.id);
     return { ...newTrack };
   }
 
@@ -53,7 +53,7 @@ export class TracksService {
   }
 
   delete(id: string): boolean {
-    console.log('Request: Delete track', id)
+    console.log('Request: Delete track', id);
     const track = this.tracks.find((t) => t.id === id);
     if (!track) return false;
 

@@ -14,4 +14,4 @@ import { FavoritesModule } from './favorites/favorites.module';
     FavoritesModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

@@ -14,14 +14,14 @@ export class AlbumsService {
     private readonly tracksService: TracksService,
     @Inject(forwardRef(() => FavoritesService))
     private readonly favoritesService: FavoritesService,
-  ) { }
+  ) {}
 
   getAll(): Album[] {
     return [...this.albums];
   }
 
   getById(id: string): Album | null {
-    console.log('Request: Get album', id)
+    console.log('Request: Get album', id);
     return this.albums.find((album) => album.id === id) || null;
   }
 
@@ -34,7 +34,7 @@ export class AlbumsService {
     };
     this.albums.push(newAlbum);
 
-    console.log('Request: Create album', newAlbum.id)
+    console.log('Request: Create album', newAlbum.id);
     return { ...newAlbum };
   }
 
@@ -54,11 +54,11 @@ export class AlbumsService {
   }
 
   delete(id: string): boolean {
-    console.log('Request: Delete album', id)
+    console.log('Request: Delete album', id);
 
     const album = this.albums.find((a) => a.id === id);
     if (!album) {
-      console.log('Error: No album', id)
+      console.log('Error: No album', id);
       return false;
     }
 

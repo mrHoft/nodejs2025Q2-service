@@ -1,4 +1,10 @@
-import { Injectable, Inject, forwardRef, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  Inject,
+  forwardRef,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { validate as uuidValidate } from 'uuid';
 import { Favorites, FavoritesResponse } from '../shared/interfaces';
 import { ArtistsService } from '../artists/artists.service';
@@ -20,7 +26,7 @@ export class FavoritesService {
     private readonly albumsService: AlbumsService,
     @Inject(forwardRef(() => TracksService))
     private readonly tracksService: TracksService,
-  ) { }
+  ) {}
 
   getAll(): FavoritesResponse {
     return {
@@ -37,7 +43,7 @@ export class FavoritesService {
   }
 
   addArtist(id: string): { status: HttpStatus; message: string } {
-    console.log('Request: Add artist to favorites', id)
+    console.log('Request: Add artist to favorites', id);
     if (!uuidValidate(id)) {
       throw new HttpException(
         'Artist ID is invalid (not uuid)',
@@ -64,7 +70,7 @@ export class FavoritesService {
   }
 
   addAlbum(id: string): { status: HttpStatus; message: string } {
-    console.log('Request: Add album to favorites', id)
+    console.log('Request: Add album to favorites', id);
     if (!uuidValidate(id)) {
       throw new HttpException(
         'Artist ID is invalid (not uuid)',
@@ -91,7 +97,7 @@ export class FavoritesService {
   }
 
   addTrack(id: string): { status: HttpStatus; message: string } {
-    console.log('Request: Add album to favorites', id)
+    console.log('Request: Add album to favorites', id);
     if (!uuidValidate(id)) {
       throw new HttpException(
         'Artist ID is invalid (not uuid)',
