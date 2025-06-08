@@ -1,27 +1,27 @@
 import {
-  Controller,
-  Get,
-  Post,
+  BadRequestException,
   Body,
-  Put,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
-  BadRequestException,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { AlbumsService } from './albums.service';
-import { CreateAlbumDto } from '../shared/dtos';
 import { validate as uuidValidate } from 'uuid';
+import { CreateAlbumDto } from '../shared/dtos';
+import { AlbumService } from './album.service';
 
 @Controller('album')
-export class AlbumsController {
-  constructor(private readonly albumsService: AlbumsService) {}
+export class AlbumController {
+  constructor(private readonly albumsService: AlbumService) {}
 
   @Get()
   getAll() {
-    return this.albumsService.getAll();
+    return this.albumsService.findAll();
   }
 
   @Get(':id')
@@ -29,7 +29,7 @@ export class AlbumsController {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const album = this.albumsService.getById(id);
+    const album = this.albumsService.findOne(id);
     if (!album) {
       throw new NotFoundException('Album not found');
     }
@@ -37,8 +37,9 @@ export class AlbumsController {
   }
 
   @Post()
-  create(@Body() createAlbumDto: CreateAlbumDto) {
-    return this.albumsService.create(createAlbumDto);
+  async create(@Body() createAlbumDto: CreateAlbumDto) {
+    const album=await this.albumsService.create(createAlbumDto);
+    return album
   }
 
   @Put(':id')
@@ -55,13 +56,13 @@ export class AlbumsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const result = this.albumsService.delete(id);
-    if (!result) {
-      throw new NotFoundException('Album not found');
+    const result = await this.albumsService.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Album with ID ${id} not found`);
     }
   }
 }
