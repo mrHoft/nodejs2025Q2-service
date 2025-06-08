@@ -1,14 +1,14 @@
-import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import type { CustomRelationOptions } from './types';
-import { Artist } from './artist.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Album } from './album.entity';
+import { Artist } from './artist.entity';
+import type { CustomRelationOptions } from './types';
 
 @Entity()
 export class Track {
   @PrimaryColumn({
     type: 'uuid',
     primaryKeyConstraintName: 'PK_track_id',
-    default: () => 'uuid_generate_v4()'
+    default: () => 'uuid_generate_v4()',
   })
   id: string;
 
@@ -20,7 +20,7 @@ export class Track {
 
   @ManyToOne(() => Artist, artist => artist.tracks, {
     onDelete: 'SET NULL',
-    foreignKeyConstraintName: 'FK_track_artist'
+    foreignKeyConstraintName: 'FK_track_artist',
   } as CustomRelationOptions)
   @JoinColumn({ name: 'artistId' })
   artist: Artist;
@@ -30,7 +30,7 @@ export class Track {
 
   @ManyToOne(() => Album, album => album.tracks, {
     onDelete: 'SET NULL',
-    foreignKeyConstraintName: 'FK_track_album'
+    foreignKeyConstraintName: 'FK_track_album',
   } as CustomRelationOptions)
   @JoinColumn({ name: 'albumId' })
   album: Album;

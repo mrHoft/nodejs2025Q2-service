@@ -1,12 +1,12 @@
-import { Entity, PrimaryColumn, Column, Unique } from 'typeorm';
+import { Column, Entity, PrimaryColumn, Unique } from 'typeorm';
 
 @Entity()
-@Unique("UQ_user_login", ["login"])
+@Unique('UQ_user_login', ['login'])
 export class User {
   @PrimaryColumn({
     type: 'uuid',
     primaryKeyConstraintName: 'PK_user_id',
-    default: () => 'uuid_generate_v4()'
+    default: () => 'uuid_generate_v4()',
   })
   id: string;
 
@@ -21,13 +21,13 @@ export class User {
 
   @Column({
     type: 'int8',
-    default: () => 'EXTRACT(EPOCH FROM NOW()) * 1000)'
+    default: () => 'EXTRACT(EPOCH FROM NOW()) * 1000)',
   })
   createdAt: number;
 
   @Column({
     type: 'int8',
-    default: () => 'EXTRACT(EPOCH FROM NOW()) * 1000)'
+    default: () => 'EXTRACT(EPOCH FROM NOW()) * 1000)',
   })
   updatedAt: number;
 }

@@ -1,15 +1,16 @@
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import 'dotenv/config';
-import { DataSource } from 'typeorm';
 
-export const AppDataSource = new DataSource({
+export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   host: 'localhost',
   port: parseInt(process.env.PG_PORT, 10) || 5432,
   username: process.env.PG_USER || 'postgres',
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DB || 'music_library',
-  entities: ['src/**/*.entity{.ts,.js}'],
-  migrations: ['migrations/**/*{.ts,.js}'],
+  entities: [__dirname + '/**/*.entity{.ts,.js}'],
   synchronize: false,
+  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+  migrationsRun: false,
   logging: true,
-});
+};

@@ -1,11 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsBoolean,
-  IsNumber,
-  IsOptional,
-  IsUUID,
-} from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -14,16 +7,19 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(6)
   password: string;
 }
 
 export class UpdateUserDto {
   @IsString()
   @IsNotEmpty()
+  @MinLength(4)
   oldPassword: string;
 
   @IsString()
   @IsNotEmpty()
+  @MinLength(4)
   newPassword: string;
 }
 

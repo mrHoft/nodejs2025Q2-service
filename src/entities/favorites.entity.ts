@@ -1,11 +1,11 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Favorites {
   @PrimaryColumn({
     type: 'int',
     primaryKeyConstraintName: 'PK_favorites_id',
-    default: 1
+    default: 1,
   })
   id: number;
 

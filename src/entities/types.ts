@@ -1,4 +1,4 @@
-import { RelationOptions } from "typeorm";
+import { RelationOptions } from 'typeorm';
 
 export interface CustomRelationOptions extends RelationOptions {
   foreignKeyConstraintName?: string;

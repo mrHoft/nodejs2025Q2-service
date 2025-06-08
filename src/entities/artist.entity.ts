@@ -1,14 +1,14 @@
-import { Entity, PrimaryColumn, Column, OneToMany } from 'typeorm';
-import type { CustomRelationOptions } from './types';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { Album } from './album.entity';
 import { Track } from './track.entity';
+import type { CustomRelationOptions } from './types';
 
 @Entity()
 export class Artist {
   @PrimaryColumn({
     type: 'uuid',
     primaryKeyConstraintName: 'PK_artist_id',
-    default: () => 'uuid_generate_v4()'
+    default: () => 'uuid_generate_v4()',
   })
   id: string;
 
@@ -19,7 +19,7 @@ export class Artist {
   grammy: boolean;
 
   @OneToMany(() => Album, album => album.artist, {
-    foreignKeyConstraintName: 'FK_album_artist'
+    foreignKeyConstraintName: 'FK_album_artist',
   } as CustomRelationOptions)
   albums: Album[];
 
