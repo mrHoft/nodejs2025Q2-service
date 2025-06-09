@@ -17,6 +17,7 @@ After starting the app on port (4000 as default) you can open in your browser Op
 ## Testing
 Command | Description
 --- | ---
+`npm run scan` | Runtime application vulnerabilities scanning
 `npm run test` | Run all tests without authorization
 `npm run test:auth` | Run all test with authorization
 

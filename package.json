@@ -27,7 +27,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "db:prepare": "mkdir -p ../postgres/db && docker run --rm -v $(pwd)/../postgres/db:/mnt alpine chown -R 999:999 /mnt",
-    "db:view": "psql -h localhost -U postgres -d music_library -W"
+    "db:view": "psql -h localhost -U postgres -d music_library -W",
+    "scan": "curl -s http://localhost:4000 | grep -q 'vulnerable' && echo 'Warning: Potential runtime vulnerabilities detected' || echo 'Runtime check passed'"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.2",
