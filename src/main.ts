@@ -16,5 +16,6 @@ async function bootstrap() {
   SwaggerModule.setup('doc', app, document);
 
   await app.listen(PORT);
+  console.log(`Nest server started at ${PORT} port.`)
 }
 bootstrap();

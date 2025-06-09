@@ -13,9 +13,6 @@
 !doc/
 !entrypoint.sh
 
-# Explicitly ignore the db folder
-postgres/
-
 # Specific exclusions
 .git/
 .vscode/

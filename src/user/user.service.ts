@@ -57,14 +57,12 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
-    // Verify old password matches
     const isPasswordValid = await bcrypt.compare(updateUserDto.oldPassword, user.password);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Update to new password
     user.password = await this.hashPassword(updateUserDto.newPassword);
     user.version += 1;
     user.updatedAt = Date.now();

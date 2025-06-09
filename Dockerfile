@@ -1,3 +1,10 @@
+FROM node:18-alpine AS dev
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN --mount=type=cache,target=/root/.npm npm install --include=dev --no-fund --no-audit --loglevel=error
+COPY . .
+CMD ["npm", "run", "start:dev"]
+
 FROM node:18-alpine AS builder
 WORKDIR /usr/src/app
 COPY package*.json ./
