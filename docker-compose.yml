@@ -13,6 +13,7 @@ services:
       - "${PG_PORT}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - postgres_logs:/var/log/postgresql
     networks:
       - app-network
     restart: unless-stopped
@@ -61,11 +62,9 @@ services:
 
 volumes:
   postgres_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: ${PWD}/../postgres/db
-      o: bind
+    name: pg-data
+  postgres_logs:
+    name: pg-logs
 
 networks:
   app-network:

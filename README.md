@@ -6,7 +6,6 @@
 - `git clone {repository URL}`
 - `npm install` (not needed if you using docker image)
 - `cp .env.example .env` (important! prepare environment)
-- `npm run db:prepare` (important! prepare local database folder)
 
 ## Running application
 `npm start` - Start docker compose with postgres and nest app containers in daemon mode
@@ -30,7 +29,6 @@ Command | Description
 ## Database
 Command | Description
 --- | ---
-`npm run db:prepare` | prepare local database folder
 `npm run migration:run` | create initial tables in database
 `npm run migration:revert` | delete all tables from database
 
