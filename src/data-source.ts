@@ -3,8 +3,8 @@ import { DataSource } from 'typeorm';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: parseInt(process.env.PG_PORT, 10) || 5432,
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.PG_PORT || '5432', 10),
   username: process.env.PG_USER || 'postgres',
   password: process.env.PG_PASSWORD,
   database: process.env.PG_DB || 'music_library',

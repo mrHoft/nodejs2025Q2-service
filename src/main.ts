@@ -6,7 +6,7 @@ import { join } from 'path';
 import * as yaml from 'yamljs';
 import { AppModule } from './app.module';
 
-const PORT = parseInt(process.env.PORT || '4000', 10);
+const PORT = parseInt(process.env.APP_PORT || '4000', 10);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

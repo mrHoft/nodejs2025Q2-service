@@ -3,7 +3,7 @@ import 'dotenv/config';
 
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: 'localhost',
+  host: process.env.DB_HOST,
   port: parseInt(process.env.PG_PORT, 10) || 5432,
   username: process.env.PG_USER || 'postgres',
   password: process.env.PG_PASSWORD,

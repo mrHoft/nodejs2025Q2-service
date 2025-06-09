@@ -26,9 +26,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "db:prepare": "mkdir -p db && docker run --rm -v $(pwd)/db:/mnt alpine chown -R 999:999 /mnt",
-    "db:view": "psql -h localhost -U postgres -d music_library -W",
-    "postinstall": "npm run db:prepare"
+    "db:prepare": "mkdir -p ../postgres/db && docker run --rm -v $(pwd)/../postgres/db:/mnt alpine chown -R 999:999 /mnt",
+    "db:view": "psql -h localhost -U postgres -d music_library -W"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.2",
