@@ -29,7 +29,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "db:prepare": "mkdir -p ../postgres/db && docker run --rm -v $(pwd)/../postgres/db:/mnt alpine chown -R 999:999 /mnt",
     "db:view": "psql -h localhost -U postgres -d music_library -W",
-    "scan": "./vuln-scan.sh"
+    "scan": "node vuln-scan.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.2",
