@@ -1,0 +1,33 @@
+# Ignore everything by default
+*
+
+# Allow these specific files and directories
+!src/
+!package.json
+!package-lock.json
+!tsconfig*.json
+!nest-cli.json
+!.env*
+!data-source.ts
+!migrations/
+!doc/
+!entrypoint.sh
+
+# Specific exclusions
+.git/
+.vscode/
+.gitignore
+.dockerignore
+node_modules/
+dist/
+coverage/
+*.log
+*.md
+*.yml
+*.yaml
+*.tmp
+*.swp
+.DS_Store
+.idea/
+docker-compose*
+test/

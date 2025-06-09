@@ -1,27 +1,27 @@
 import {
-  Controller,
-  Get,
-  Post,
+  BadRequestException,
   Body,
-  Put,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
-  BadRequestException,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { ArtistsService } from './artists.service';
-import { CreateArtistDto } from '../shared/dtos';
 import { validate as uuidValidate } from 'uuid';
+import { CreateArtistDto } from '../shared/dtos';
+import { ArtistService } from './artist.service';
 
 @Controller('artist')
-export class ArtistsController {
-  constructor(private readonly artistsService: ArtistsService) {}
+export class ArtistController {
+  constructor(private readonly artistsService: ArtistService) {}
 
   @Get()
   getAll() {
-    return this.artistsService.getAll();
+    return this.artistsService.findAll();
   }
 
   @Get(':id')
@@ -29,7 +29,7 @@ export class ArtistsController {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const artist = this.artistsService.getById(id);
+    const artist = this.artistsService.findOne(id);
     if (!artist) {
       throw new NotFoundException('Artist not found');
     }
@@ -55,13 +55,14 @@ export class ArtistsController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const result = this.artistsService.delete(id);
-    if (!result) {
-      throw new NotFoundException('Artist not found');
+    const result = await this.artistsService.delete(id);
+    console.log(result)
+    if (result.affected === 0) {
+      throw new NotFoundException(`Artist with ID ${id} not found`);
     }
   }
 }

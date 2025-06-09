@@ -1,0 +1,10 @@
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+RUN --mount=type=cache,target=/root/.npm npm install --no-fund --no-audit --loglevel=error --save-dev typeorm-ts-node-commonjs
+
+COPY . .
+
+CMD ["npx", "typeorm-ts-node-commonjs", "-d", "src/data-source.ts", "migration:run"]

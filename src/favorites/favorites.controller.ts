@@ -1,16 +1,16 @@
 import {
+  BadRequestException,
   Controller,
-  Get,
-  Post,
-  Param,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
-  BadRequestException,
+  Param,
+  Post,
 } from '@nestjs/common';
-import { FavoritesService } from './favorites.service';
 import { validate as uuidValidate } from 'uuid';
+import { FavoritesService } from './favorites.service';
 
 @Controller('favs')
 export class FavoritesController {
@@ -18,73 +18,76 @@ export class FavoritesController {
 
   @Get()
   getAll() {
-    return this.favoritesService.getAll();
+    return this.favoritesService.findAll();
   }
 
   @Post('artist/:id')
-  addArtist(@Param('id') id: string) {
-    try {
-      const result = this.favoritesService.addArtist(id);
-      return { message: result.message };
-    } catch (error) {
-      console.log('Error:', error.status, error.message);
-      throw error;
+  async addArtist(@Param('id') id: string) {
+    if (!uuidValidate(id)) {
+      throw new BadRequestException('Invalid UUID format');
     }
+    const response=await this.favoritesService.addArtist(id);
+    if(response instanceof Error){
+      throw(response)
+    }
+    return response
   }
 
   @Delete('artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeArtist(@Param('id') id: string) {
+  async removeArtist(@Param('id') id: string) {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const result = this.favoritesService.removeArtist(id);
+    const result = await this.favoritesService.removeArtist(id);
     if (!result) {
       throw new NotFoundException('Artist not found in favorites');
     }
   }
 
   @Post('album/:id')
-  addAlbum(@Param('id') id: string) {
-    try {
-      const result = this.favoritesService.addAlbum(id);
-      return { message: result.message };
-    } catch (error) {
-      console.log('Error:', error.status, error.message);
-      throw error;
+  async addAlbum(@Param('id') id: string) {
+    if (!uuidValidate(id)) {
+      throw new BadRequestException('Invalid UUID format');
     }
+    const response=await this.favoritesService.addAlbum(id);
+    if(response instanceof Error){
+      throw(response)
+    }
+    return response
   }
 
   @Delete('album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeAlbum(@Param('id') id: string) {
+  async removeAlbum(@Param('id') id: string) {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const result = this.favoritesService.removeAlbum(id);
+    const result = await this.favoritesService.removeAlbum(id);
     if (!result) {
       throw new NotFoundException('Album not found in favorites');
     }
   }
 
   @Post('track/:id')
-  addTrack(@Param('id') id: string) {
-    try {
-      const result = this.favoritesService.addTrack(id);
-      return { message: result.message };
-    } catch (error) {
-      console.log('Error:', error.status, error.message);
-      throw error;
+  async addTrack(@Param('id') id: string) {
+    if (!uuidValidate(id)) {
+      throw new BadRequestException('Invalid UUID format');
     }
+    const response=await this.favoritesService.addTrack(id);
+    if(response instanceof Error){
+      throw(response)
+    }
+    return response
   }
 
   @Delete('track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeTrack(@Param('id') id: string) {
+  async removeTrack(@Param('id') id: string) {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const result = this.favoritesService.removeTrack(id);
+    const result = await this.favoritesService.removeTrack(id);
     if (!result) {
       throw new NotFoundException('Track not found in favorites');
     }

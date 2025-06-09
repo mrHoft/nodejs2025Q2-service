@@ -1,27 +1,27 @@
 import {
-  Controller,
-  Get,
-  Post,
+  BadRequestException,
   Body,
-  Put,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   NotFoundException,
-  BadRequestException,
+  Param,
+  Post,
+  Put,
 } from '@nestjs/common';
-import { TracksService } from './tracks.service';
-import { CreateTrackDto } from '../shared/dtos';
 import { validate as uuidValidate } from 'uuid';
+import { CreateTrackDto } from '../shared/dtos';
+import { TrackService } from './track.service';
 
 @Controller('track')
-export class TracksController {
-  constructor(private readonly tracksService: TracksService) {}
+export class TrackController {
+  constructor(private readonly tracksService: TrackService) {}
 
   @Get()
   getAll() {
-    return this.tracksService.getAll();
+    return this.tracksService.findAll();
   }
 
   @Get(':id')
@@ -29,7 +29,7 @@ export class TracksController {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const track = this.tracksService.getById(id);
+    const track = this.tracksService.findOne(id);
     if (!track) {
       throw new NotFoundException('Track not found');
     }
@@ -55,13 +55,13 @@ export class TracksController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const result = this.tracksService.delete(id);
-    if (!result) {
-      throw new NotFoundException('Track not found');
+    const result = await this.tracksService.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Track with ID ${id} not found`);
     }
   }
 }
