@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
-import { createWriteStream, existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { FileLogging } from 'src/utils/logs';
+import { getFormattedTimestamp } from 'src/utils/timestamp';
 
 interface NestRequest {
   method: string;
@@ -22,6 +22,7 @@ interface NestResponse {
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
+  private logger = new FileLogging()
   private colors = {
     GET: '\x1b[32m',     // Green
     POST: '\x1b[34m',    // Blue
@@ -31,21 +32,10 @@ export class LoggerMiddleware implements NestMiddleware {
     reset: '\x1b[0m'     // Reset colors
   };
 
-  private logStream = this.initializeLogStream();
-
-  private initializeLogStream() {
-    const logDir = join(process.cwd(), 'logs');
-    if (!existsSync(logDir)) {
-      mkdirSync(logDir);
-    }
-    const logPath = join(logDir, 'request.log');
-    return createWriteStream(logPath, { flags: 'a' });
-  }
-
   use(req: NestRequest, res: NestResponse, next: () => void) {
     const start = Date.now();
     const { method, originalUrl: url, body } = req;
-    const timestamp = this.getFormattedTimestamp();
+    const timestamp = getFormattedTimestamp();
     const parsedBody=body ? JSON.stringify(body) : ''
 
     res.on('close', () => {
@@ -56,17 +46,10 @@ export class LoggerMiddleware implements NestMiddleware {
       console.log(`[${coloredMethod}] ${url} ${parsedBody} ${statusColor}${res.statusCode}${this.colors.reset} (${duration}ms)`);
 
       const logEntry = `[${timestamp}] [${method}] ${url} ${parsedBody} ${res.statusCode} (${duration}ms)\n`;
-      this.logStream.write(logEntry);
+      this.logger.logRequest(logEntry);
     });
 
     next();
-  }
-
-  private getFormattedTimestamp(): string {
-    const now = new Date();
-    const date = now.toISOString().split('T')[0];
-    const time = now.toTimeString().split(' ')[0].split(':').slice(0, 3).join(':');
-    return `${date} ${time}`;
   }
 
   private getColoredMethod(method: string): string {
