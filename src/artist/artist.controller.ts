@@ -60,7 +60,7 @@ export class ArtistController {
       throw new BadRequestException('Invalid UUID format');
     }
     const result = await this.artistsService.delete(id);
-    console.log(result)
+    console.log(result);
     if (result.affected === 0) {
       throw new NotFoundException(`Artist with ID ${id} not found`);
     }

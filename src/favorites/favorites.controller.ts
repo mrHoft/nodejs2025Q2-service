@@ -26,11 +26,11 @@ export class FavoritesController {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const response=await this.favoritesService.addArtist(id);
-    if(response instanceof Error){
-      throw(response)
+    const response = await this.favoritesService.addArtist(id);
+    if (response instanceof Error) {
+      throw response;
     }
-    return response
+    return response;
   }
 
   @Delete('artist/:id')
@@ -50,11 +50,11 @@ export class FavoritesController {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const response=await this.favoritesService.addAlbum(id);
-    if(response instanceof Error){
-      throw(response)
+    const response = await this.favoritesService.addAlbum(id);
+    if (response instanceof Error) {
+      throw response;
     }
-    return response
+    return response;
   }
 
   @Delete('album/:id')
@@ -74,11 +74,11 @@ export class FavoritesController {
     if (!uuidValidate(id)) {
       throw new BadRequestException('Invalid UUID format');
     }
-    const response=await this.favoritesService.addTrack(id);
-    if(response instanceof Error){
-      throw(response)
+    const response = await this.favoritesService.addTrack(id);
+    if (response instanceof Error) {
+      throw response;
     }
-    return response
+    return response;
   }
 
   @Delete('track/:id')

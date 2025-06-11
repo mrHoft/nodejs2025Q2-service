@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import 'dotenv/config';
 import type { UpdateUserDto } from 'src/shared/dtos';
 import { QueryFailedError, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -13,7 +14,7 @@ export class UserService {
   ) {}
 
   private async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(parseInt(process.env.CRYPT_SALT));
     return bcrypt.hash(password, salt);
   }
 
@@ -22,13 +23,16 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findOne(id: string): Promise<User> {
-    console.log(`Get user ${id}`);
+  async findOneById(id: string): Promise<User> {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
     return user;
+  }
+
+  async findOneByLogin(login: string): Promise<User | null> {
+    return this.userRepository.findOne({ where: { login } });
   }
 
   async create(createUserDto: { login: string; password: string }): Promise<User> {
@@ -52,7 +56,7 @@ export class UserService {
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     console.log(`Update user ${id}`);
-    const user = await this.findOne(id);
+    const user = await this.findOneById(id);
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }

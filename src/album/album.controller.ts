@@ -38,8 +38,8 @@ export class AlbumController {
 
   @Post()
   async create(@Body() createAlbumDto: CreateAlbumDto) {
-    const album=await this.albumsService.create(createAlbumDto);
-    return album
+    const album = await this.albumsService.create(createAlbumDto);
+    return album;
   }
 
   @Put(':id')
