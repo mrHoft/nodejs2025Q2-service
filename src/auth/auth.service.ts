@@ -41,16 +41,16 @@ export class AuthService {
     return this.generateTokens(user);
   }
 
-  async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
+  async refresh(refreshToken: string): Promise<{ accessToken: string; refreshToken: string } | Error> {
     try {
       const payload = JwtUtils.verify(refreshToken, REFRESH_KEY);
       const user = await this.userService.findOneById(payload.userId);
       if (!user) {
-        throw new ForbiddenException('Access Denied');
+        return new ForbiddenException('Access Denied');
       }
       return this.generateTokens(user);
     } catch (error) {
-      throw new UnauthorizedException('Invalid refresh token');
+      return new ForbiddenException('Invalid refresh token');
     }
   }
 

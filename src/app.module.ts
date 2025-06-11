@@ -25,9 +25,11 @@ export class AppModule implements NestModule {
       .exclude(
         '/',
         '/doc',
-        '/test-errors',
+        '/test-errors/unhandled',
+        '/test-errors/uncaught',
         '/auth/signup',
-        '/auth/login'
+        '/auth/login',
+        '/auth/refresh'
       )
       .forRoutes('*');
   }

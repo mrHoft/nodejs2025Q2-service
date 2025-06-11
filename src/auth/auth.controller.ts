@@ -1,4 +1,4 @@
-import { Body, Controller, Post, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
+import { Body, Controller, Post, HttpCode, HttpStatus, BadRequestException,UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
@@ -12,8 +12,8 @@ export class AuthController {
       typeof signupDto.login !== 'string' || typeof signupDto.password !== 'string') {
       throw new BadRequestException('Invalid credentials');
     }
-    const response=await this.authService.signup(signupDto);
-    if(response instanceof Error) throw response
+    const response = await this.authService.signup(signupDto);
+    if (response instanceof Error) throw response
 
     return response;
   }
@@ -31,9 +31,12 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(@Body() body: { refreshToken: string }) {
-    if (!body.refreshToken || typeof body.refreshToken !== 'string') {
-      throw new BadRequestException('Refresh token is required');
+    if (!body || !body.refreshToken || typeof body.refreshToken !== 'string') {
+      throw new UnauthorizedException('Refresh token is required');
     }
-    return this.authService.refresh(body.refreshToken);
+    const response = await this.authService.refresh(body.refreshToken);
+    if (response instanceof Error) throw response
+
+    return response;
   }
 }

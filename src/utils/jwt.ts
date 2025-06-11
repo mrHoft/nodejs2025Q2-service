@@ -74,7 +74,7 @@ export class JwtUtils {
       this.base64UrlDecode(encodedPayload).toString(),
     );
 
-    if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
+    if (payload.exp && payload.exp <= Math.floor(Date.now() / 1000)) {
       throw new Error('Token expired');
     }
 
