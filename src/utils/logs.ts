@@ -1,5 +1,9 @@
-import { existsSync, mkdirSync, renameSync, statSync, unlinkSync, createWriteStream  } from 'fs';
+import { existsSync, mkdirSync, renameSync, statSync, unlinkSync, createWriteStream } from 'fs';
 import { join } from 'path';
+import 'dotenv/config';
+
+const FILE_SIZE = parseInt(process.env.LOG_FILE_SIZE || '1024', 10);
+const LOG_LEVEL = process.env.LOG_LEVEL || 'info'
 
 export class LogRotation {
   private readonly maxFileSizeKB: number;
@@ -65,31 +69,33 @@ export class LogRotation {
   }
 }
 
+type TLogLevel = 'error' | 'warn' | 'info' | 'http' | 'debug' | 'trace';
+const levels = ['error', 'warn', 'info', 'http', 'debug', 'trace'];
+
 export class FileLogging {
   private logRotation: LogRotation;
-  private requestLogPath: string;
-  private errorLogPath: string;
+  private logLevel: number = levels.indexOf(LOG_LEVEL) || 2;
 
   constructor() {
     const logDir = join(process.cwd(), 'logs');
-    this.logRotation = new LogRotation(logDir, 1024, 3);
-    this.requestLogPath = join(logDir, 'requests.log');
-    this.errorLogPath = join(logDir, 'errors.log');
+    this.logRotation = new LogRotation(logDir, FILE_SIZE, 3);
   }
 
-  private getWriteStream(logPath: string) {
+  private shouldLog(level: TLogLevel): boolean {
+    return levels.indexOf(level) <= this.logLevel;
+  }
+
+  setLevel(level: TLogLevel) {
+    this.logLevel = levels.indexOf(level);
+  }
+
+  log(level: TLogLevel, message: string) {
+    if (!this.shouldLog(level)) return;
+
+    const logPath = join(process.cwd(), 'logs', `${level}.log`);
     this.logRotation.handleRotation(logPath);
-    return createWriteStream(logPath, { flags: 'a' });
-  }
 
-  logRequest(message: string) {
-    const stream = this.getWriteStream(this.requestLogPath);
-    stream.write(message);
-    stream.end();
-  }
-
-  logError(message: string) {
-    const stream = this.getWriteStream(this.errorLogPath);
+    const stream = createWriteStream(logPath, { flags: 'a' });
     stream.write(message);
     stream.end();
   }

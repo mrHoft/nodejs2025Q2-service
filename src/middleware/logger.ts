@@ -22,7 +22,7 @@ interface NestResponse {
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
-  private logger = new FileLogging()
+  private fileLogger = new FileLogging()
   private colors = {
     GET: '\x1b[32m',     // Green
     POST: '\x1b[34m',    // Blue
@@ -36,7 +36,7 @@ export class LoggerMiddleware implements NestMiddleware {
     const start = Date.now();
     const { method, originalUrl: url, body } = req;
     const timestamp = getFormattedTimestamp();
-    const parsedBody=body ? JSON.stringify(body) : ''
+    const parsedBody = body ? JSON.stringify(body) : ''
 
     res.on('close', () => {
       const duration = Date.now() - start;
@@ -46,7 +46,7 @@ export class LoggerMiddleware implements NestMiddleware {
       console.log(`[${coloredMethod}] ${url} ${parsedBody} ${statusColor}${res.statusCode}${this.colors.reset} (${duration}ms)`);
 
       const logEntry = `[${timestamp}] [${method}] ${url} ${parsedBody} ${res.statusCode} (${duration}ms)\n`;
-      this.logger.logRequest(logEntry);
+      this.fileLogger.log('info', logEntry);
     });
 
     next();
