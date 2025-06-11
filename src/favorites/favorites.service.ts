@@ -1,10 +1,10 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { AlbumService } from '../album/album.service';
 import { ArtistService } from '../artist/artist.service';
 import { Favorites } from '../entities//favorites.entity';
 import { TrackService } from '../track/track.service';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class FavoritesService {
@@ -14,7 +14,7 @@ export class FavoritesService {
     private readonly artistService: ArtistService,
     private readonly albumService: AlbumService,
     private readonly trackService: TrackService,
-  ) { }
+  ) {}
 
   private async getFavorites(): Promise<Favorites> {
     let favorites = await this.favoritesRepository.findOne({ where: { id: 1 } });
@@ -28,7 +28,7 @@ export class FavoritesService {
   }
 
   async findAll() {
-    console.log('Get favorites')
+    console.log('Get favorites');
     const favorites = await this.getFavorites();
     return {
       artists: await this.artistService.findAllByIds(favorites.artists),
@@ -38,12 +38,12 @@ export class FavoritesService {
   }
 
   async addArtist(id: string) {
-    console.log('Add to favorites artist', id)
-    const artist=await this.artistService.findOne(id).catch(()=>null);
-    if(!artist){
-      return new UnprocessableEntityException(`Artist ${id} was not found!`)
+    console.log('Add to favorites artist', id);
+    const artist = await this.artistService.findOne(id).catch(() => null);
+    if (!artist) {
+      return new UnprocessableEntityException(`Artist ${id} was not found!`);
     }
-    console.log(artist)
+    console.log(artist);
     const favorites = await this.getFavorites();
 
     if (!favorites.artists.includes(id)) {
@@ -53,17 +53,17 @@ export class FavoritesService {
   }
 
   async removeArtist(id: string) {
-    console.log('Remove from favorites artist', id)
+    console.log('Remove from favorites artist', id);
     const favorites = await this.getFavorites();
     favorites.artists = favorites.artists.filter(artistId => artistId !== id);
     return this.favoritesRepository.save(favorites);
   }
 
   async addAlbum(id: string) {
-    console.log('Add to favorites album', id)
-    const album=await this.albumService.findOne(id).catch(()=>null);
-    if(!album){
-      return new UnprocessableEntityException(`Album ${id} was not found!`)
+    console.log('Add to favorites album', id);
+    const album = await this.albumService.findOne(id).catch(() => null);
+    if (!album) {
+      return new UnprocessableEntityException(`Album ${id} was not found!`);
     }
     const favorites = await this.getFavorites();
 
@@ -74,17 +74,17 @@ export class FavoritesService {
   }
 
   async removeAlbum(id: string) {
-    console.log('Remove from favorites album', id)
+    console.log('Remove from favorites album', id);
     const favorites = await this.getFavorites();
     favorites.albums = favorites.albums.filter(albumId => albumId !== id);
     return this.favoritesRepository.save(favorites);
   }
 
   async addTrack(id: string) {
-    console.log('Add to favorites track', id)
-    const track=await this.trackService.findOne(id).catch(()=>null);
-    if(!track){
-      return new UnprocessableEntityException(`Track ${id} was not found!`)
+    console.log('Add to favorites track', id);
+    const track = await this.trackService.findOne(id).catch(() => null);
+    if (!track) {
+      return new UnprocessableEntityException(`Track ${id} was not found!`);
     }
     const favorites = await this.getFavorites();
 
@@ -95,7 +95,7 @@ export class FavoritesService {
   }
 
   async removeTrack(id: string) {
-    console.log('Remove from favorites track', id)
+    console.log('Remove from favorites track', id);
     const favorites = await this.getFavorites();
     favorites.tracks = favorites.tracks.filter(trackId => trackId !== id);
     return this.favoritesRepository.save(favorites);

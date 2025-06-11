@@ -10,15 +10,15 @@ export class AlbumService {
     @InjectRepository(Album)
     private readonly albumRepository: Repository<Album>,
     private readonly artistService: ArtistService,
-  ) { }
+  ) {}
 
   async findAll(): Promise<Album[]> {
-    console.log('Get albums')
+    console.log('Get albums');
     return this.albumRepository.find({ relations: ['artist'] });
   }
 
   async findOne(id: string): Promise<Album> {
-    console.log(`Get album ${id}`)
+    console.log(`Get album ${id}`);
     const album = await this.albumRepository.findOne({
       where: { id },
       relations: ['artist'],
@@ -30,7 +30,7 @@ export class AlbumService {
   }
 
   async create(createAlbumDto: { name: string; year: number; artistId?: string }): Promise<Album> {
-    console.log(`Create album ${createAlbumDto.name}`)
+    console.log(`Create album ${createAlbumDto.name}`);
     const album = this.albumRepository.create(createAlbumDto);
 
     if (createAlbumDto.artistId) {
@@ -40,8 +40,8 @@ export class AlbumService {
     return this.albumRepository.save(album);
   }
 
-  async update(id: string, updateAlbumDto: { name?: string; year?: number; artistId?: string | null; }): Promise<Album> {
-    console.log(`Update album ${id}`)
+  async update(id: string, updateAlbumDto: { name?: string; year?: number; artistId?: string | null }): Promise<Album> {
+    console.log(`Update album ${id}`);
     const album = await this.findOne(id);
 
     if (updateAlbumDto.artistId !== undefined) {
@@ -53,7 +53,7 @@ export class AlbumService {
   }
 
   async delete(id: string) {
-    console.log(`Delete album ${id}`)
+    console.log(`Delete album ${id}`);
     return this.albumRepository.delete(id);
   }
 

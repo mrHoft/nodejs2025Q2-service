@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
+import 'dotenv/config';
 import type { UpdateUserDto } from 'src/shared/dtos';
 import { QueryFailedError, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
-import 'dotenv/config';
 
 @Injectable()
 export class UserService {

@@ -15,12 +15,12 @@ async function bootstrap() {
   const exceptionFilter = new GlobalExceptionFilter();
   app.useGlobalFilters(exceptionFilter);
 
-  process.on('uncaughtException', (err) => {
+  process.on('uncaughtException', err => {
     exceptionFilter.logError(err);
     setTimeout(() => process.exit(1), 1000);
   });
 
-  process.on('unhandledRejection', (reason) => {
+  process.on('unhandledRejection', reason => {
     const err = reason instanceof Error ? reason : new Error(String(reason));
     exceptionFilter.logError(err);
   });
@@ -29,6 +29,6 @@ async function bootstrap() {
   SwaggerModule.setup('doc', app, document);
 
   await app.listen(PORT);
-  console.log(`Nest server started at ${PORT} port.`)
+  console.log(`Nest server started at ${PORT} port.`);
 }
 bootstrap();

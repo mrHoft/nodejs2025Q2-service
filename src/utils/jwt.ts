@@ -29,7 +29,6 @@ export class JwtUtils {
     const now = Math.floor(Date.now() / 1000);
     payload.iat = now;
 
-    // Parse expiresIn (e.g., '1h', '24h')
     const timeValue = parseInt(expiresIn);
     const timeUnit = expiresIn.replace(timeValue.toString(), '');
 
@@ -43,10 +42,7 @@ export class JwtUtils {
     const encodedHeader = this.base64UrlEncode(Buffer.from(JSON.stringify(header)));
     const encodedPayload = this.base64UrlEncode(Buffer.from(JSON.stringify(payload)));
 
-    const signature = crypto
-      .createHmac('sha256', secret)
-      .update(`${encodedHeader}.${encodedPayload}`)
-      .digest();
+    const signature = crypto.createHmac('sha256', secret).update(`${encodedHeader}.${encodedPayload}`).digest();
 
     const encodedSignature = this.base64UrlEncode(signature);
 
@@ -61,18 +57,13 @@ export class JwtUtils {
     }
 
     const signature = this.base64UrlDecode(encodedSignature);
-    const expectedSignature = crypto
-      .createHmac('sha256', secret)
-      .update(`${encodedHeader}.${encodedPayload}`)
-      .digest();
+    const expectedSignature = crypto.createHmac('sha256', secret).update(`${encodedHeader}.${encodedPayload}`).digest();
 
     if (!crypto.timingSafeEqual(signature, expectedSignature)) {
       throw new Error('Invalid token signature');
     }
 
-    const payload: JwtPayload = JSON.parse(
-      this.base64UrlDecode(encodedPayload).toString(),
-    );
+    const payload: JwtPayload = JSON.parse(this.base64UrlDecode(encodedPayload).toString());
 
     if (payload.exp && payload.exp <= Math.floor(Date.now() / 1000)) {
       throw new Error('Token expired');

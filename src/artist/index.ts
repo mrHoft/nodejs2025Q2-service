@@ -1,3 +1,3 @@
-export { ArtistsModule } from "./artist.module";
-export { ArtistController } from "./artist.controller";
-export { ArtistService } from "./artist.service";
+export { ArtistController } from './artist.controller';
+export { ArtistsModule } from './artist.module';
+export { ArtistService } from './artist.service';

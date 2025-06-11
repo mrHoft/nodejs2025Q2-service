@@ -1,3 +1,3 @@
-export { FavoritesModule } from "./favorites.module";
-export { FavoritesController } from "./favorites.controller";
-export { FavoritesService } from "./favorites.service";
+export { FavoritesController } from './favorites.controller';
+export { FavoritesModule } from './favorites.module';
+export { FavoritesService } from './favorites.service';

@@ -1,19 +1,17 @@
-import { ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UserService } from '../user/user.service';
-import { JwtUtils, type JwtPayload } from 'src/utils/jwt';
 import 'dotenv/config';
+import { JwtUtils, type JwtPayload } from 'src/utils/jwt';
+import { UserService } from '../user/user.service';
 
-const SECRET_KEY = process.env.JWT_SECRET_KEY
-const REFRESH_KEY = process.env.JWT_SECRET_REFRESH_KEY
-const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME
-const REFRESH_EXPIRE_TIME = process.env.TOKEN_REFRESH_EXPIRE_TIME
+const SECRET_KEY = process.env.JWT_SECRET_KEY;
+const REFRESH_KEY = process.env.JWT_SECRET_REFRESH_KEY;
+const TOKEN_EXPIRE_TIME = process.env.TOKEN_EXPIRE_TIME;
+const REFRESH_EXPIRE_TIME = process.env.TOKEN_REFRESH_EXPIRE_TIME;
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly userService: UserService,
-  ) { }
+  constructor(private readonly userService: UserService) {}
 
   async signup(signupDto: { login: string; password: string }) {
     const user = await this.userService.findOneByLogin(signupDto.login);
@@ -22,7 +20,7 @@ export class AuthService {
       if (!passwordMatches) {
         return new ForbiddenException('Access Denied');
       }
-      return user
+      return user;
     }
     return this.userService.create(signupDto);
   }

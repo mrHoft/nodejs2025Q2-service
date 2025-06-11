@@ -1,13 +1,13 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpStatus,HttpException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
 import { FileLogging } from 'src/utils/logs';
 import { getFormattedTimestamp } from 'src/utils/timestamp';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
-  private fileLogger = new FileLogging()
+  private fileLogger = new FileLogging();
   private colors = {
-    error: '\x1b[31m',  // Red for errors
-    reset: '\x1b[0m'    // Reset colors
+    error: '\x1b[31m', // Red for errors
+    reset: '\x1b[0m', // Reset colors
   };
 
   public logError(error: Error) {
@@ -42,7 +42,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       message: 'Internal Server Error',
       timestamp: new Date().toISOString(),
-      path: request.url
+      path: request.url,
     });
   }
 }

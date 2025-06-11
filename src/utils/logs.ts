@@ -1,20 +1,16 @@
-import { existsSync, mkdirSync, renameSync, statSync, unlinkSync, createWriteStream } from 'fs';
-import { join } from 'path';
 import 'dotenv/config';
+import { createWriteStream, existsSync, mkdirSync, renameSync, statSync, unlinkSync } from 'fs';
+import { join } from 'path';
 
 const FILE_SIZE = parseInt(process.env.LOG_FILE_SIZE || '1024', 10);
-const LOG_LEVEL = process.env.LOG_LEVEL || 'info'
+const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 
 export class LogRotation {
   private readonly maxFileSizeKB: number;
   private readonly maxBackupFiles: number;
   private readonly logDir: string;
 
-  constructor(
-    logDir: string,
-    maxFileSizeKB: number = 1024,
-    maxBackupFiles: number = 5
-  ) {
+  constructor(logDir: string, maxFileSizeKB: number = 1024, maxBackupFiles: number = 5) {
     this.logDir = logDir;
     this.maxFileSizeKB = maxFileSizeKB;
     this.maxBackupFiles = maxBackupFiles;
